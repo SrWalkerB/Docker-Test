@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+    app:
+        build: .
+        command: npm start
+        restart: always
+        env_file:
+            - .env
+        ports:
+            - 3000:4560
+        volumes:
+            - .:/usr/app
+        deploy:
+            resources:
+                limits:
+                    cpus: "5.00"
+                    memory: 100M
+    
+    mongo:
+        image: mongo
+        container_name: db
+        restart: always
+        environment:
+            MONGO_INITDB_DATABASE: ${DB_NAME}
+            MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+
